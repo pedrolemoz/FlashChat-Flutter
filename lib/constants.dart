@@ -20,9 +20,15 @@ const kHintTextStyle = TextStyle(
   color: Colors.grey,
 );
 
+const kLabelTextStyle = TextStyle(
+  fontFamily: 'OpenSans',
+  fontWeight: FontWeight.w400,
+  fontSize: 18.0,
+  color: Colors.black,
+);
+
 const kInputDecoration = InputDecoration(
   hintStyle: kHintTextStyle,
-  style: kHintTextStyle.copyWith(color: Colors.black);
   contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
   border:
       OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),

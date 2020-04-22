@@ -1,5 +1,6 @@
 import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/login_screen.dart';
+import 'package:flash_chat/screens/registration_screen.dart';
 import 'package:flash_chat/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
 
@@ -70,9 +71,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               ),
             ),
             SizedBox(height: 10.0),
-            RoundedButton(
-              label: 'Register',
-              onPressed: () {},
+            Hero(
+              tag: 'registerButton',
+              child: RoundedButton(
+                label: 'Register',
+                onPressed: () {
+                  Navigator.pushNamed(context, RegistrationScreen.id);
+                },
+              ),
             ),
           ],
         ),

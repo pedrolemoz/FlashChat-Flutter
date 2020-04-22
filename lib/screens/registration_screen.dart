@@ -2,13 +2,13 @@ import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const id = 'login_screen';
+class RegistrationScreen extends StatefulWidget {
+  static const id = 'registration_screen';
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Center(
               child: Text(
-                'Enter your credentials',
+                'Create a new account',
                 style: kWelcomeScreenTextStyle.copyWith(fontSize: 30.0),
               ),
             ),
@@ -61,9 +61,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 10.0),
             Hero(
-              tag: 'loginButton',
+              tag: 'registerButton',
               child: RoundedButton(
-                label: 'Login',
+                label: 'Register',
                 onPressed: () {
                   print(true);
                 },

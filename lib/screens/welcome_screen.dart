@@ -52,7 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/logo.png'),
-                    height: controller.value * 100,
+                    height: animation.value * 100,
                   ),
                 ),
                 TypewriterAnimatedTextKit(

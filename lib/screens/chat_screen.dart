@@ -24,7 +24,6 @@ class _ChatScreenState extends State<ChatScreen> {
           children: <Widget>[
             ChatBubbleSender(message: 'This is a message'),
             ChatBubbleReceiver(message: 'This is another message'),
-            ChatBubbleSender(message: 'Eh mole não'),
             SizedBox(height: 10.0),
             Row(
               children: <Widget>[

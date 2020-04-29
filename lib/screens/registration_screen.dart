@@ -1,6 +1,8 @@
 import 'package:flash_chat/constants.dart';
+import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flash_chat/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const id = 'registration_screen';
@@ -9,6 +11,10 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +40,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             SizedBox(height: 20.0),
             TextField(
+              controller: _emailController,
               enableSuggestions: true,
               enableInteractiveSelection: true,
               textAlign: TextAlign.center,
@@ -41,12 +48,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               keyboardType: TextInputType.emailAddress,
               style: kLabelTextStyle,
               decoration: kInputDecoration.copyWith(hintText: 'Email'),
-              onChanged: (value) {
-                print(value);
-              },
             ),
             SizedBox(height: 10.0),
             TextField(
+              controller: _passwordController,
               enableSuggestions: true,
               enableInteractiveSelection: true,
               textAlign: TextAlign.center,
@@ -55,17 +60,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               style: kLabelTextStyle,
               obscureText: true,
               decoration: kInputDecoration.copyWith(hintText: 'Password'),
-              onChanged: (value) {
-                print(value);
-              },
             ),
             SizedBox(height: 10.0),
             Hero(
               tag: 'registerButton',
               child: RoundedButton(
                 label: 'Register',
-                onPressed: () {
-                  print(true);
+                onPressed: () async {
+                  try {
+                    final newUser = await _auth.createUserWithEmailAndPassword(
+                        email: _emailController.text,
+                        password: _passwordController.text);
+                    if (newUser != null) {
+                      Navigator.pushNamed(context, ChatScreen.id);
+                    }
+                  } catch (exception) {
+                    print(exception);
+                  }
                 },
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/widgets/chat_bubble_receiver.dart';
 import 'package:flash_chat/widgets/chat_bubble_sender.dart';
 import 'package:flash_chat/widgets/circular_button.dart';
@@ -11,6 +12,32 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final _auth = FirebaseAuth.instance;
+  FirebaseUser loggedUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _auth.signOut();
+  }
+
+  void getUserData() async {
+    try {
+      final user = await _auth.currentUser();
+      if (user != null) {
+        loggedUser = user;
+      }
+    } catch (exception) {
+      print(exception);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

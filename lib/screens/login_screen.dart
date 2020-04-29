@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
+import 'package:flash_chat/widgets/auth_text_field.dart';
 import 'package:flash_chat/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -43,27 +44,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 20.0),
-              TextField(
+              AuthTextField(
                 controller: _emailController,
-                enableSuggestions: true,
-                enableInteractiveSelection: true,
-                textAlign: TextAlign.center,
-                showCursor: false,
                 keyboardType: TextInputType.emailAddress,
-                style: kLabelTextStyle,
-                decoration: kInputDecoration.copyWith(hintText: 'Email'),
+                isPassword: false,
               ),
               SizedBox(height: 10.0),
-              TextField(
+              AuthTextField(
                 controller: _passwordController,
-                enableSuggestions: true,
-                enableInteractiveSelection: true,
-                textAlign: TextAlign.center,
-                showCursor: false,
                 keyboardType: TextInputType.visiblePassword,
-                style: kLabelTextStyle,
-                obscureText: true,
-                decoration: kInputDecoration.copyWith(hintText: 'Password'),
+                isPassword: true,
               ),
               SizedBox(height: 10.0),
               Hero(
@@ -85,6 +75,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         showSpinner = false;
                       });
                     } catch (exception) {
+                      setState(() {
+                        showSpinner = false;
+                      });
                       print(exception);
                     }
                   },

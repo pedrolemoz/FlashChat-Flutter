@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 class RoundedInputText extends StatelessWidget {
+  RoundedInputText({@required this.controller});
+  final TextEditingController controller;
+
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       cursorColor: Colors.grey[700],
       keyboardType: TextInputType.text,
       style: TextStyle(

@@ -4,6 +4,7 @@ import 'package:flash_chat/widgets/chat_bubble_sender.dart';
 import 'package:flash_chat/widgets/circular_button.dart';
 import 'package:flash_chat/widgets/rounded_input_text.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatScreen extends StatefulWidget {
   static const id = 'chat_screen';
@@ -12,6 +13,8 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final TextEditingController _messageController = TextEditingController();
+  final _firestore = Firestore.instance;
   final _auth = FirebaseAuth.instance;
   FirebaseUser loggedUser;
 
@@ -49,13 +52,25 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            ChatBubbleSender(message: 'This is a message'),
-            ChatBubbleReceiver(message: 'This is another message'),
-            SizedBox(height: 10.0),
             Row(
               children: <Widget>[
-                Expanded(flex: 6, child: RoundedInputText()),
-                Expanded(flex: 1, child: CircularButton()),
+                Expanded(
+                  flex: 6,
+                  child: RoundedInputText(
+                    controller: _messageController,
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: CircularButton(
+                    onPressed: () {
+                      _firestore.collection('messages').add({
+                        'text': _messageController.text,
+                        'sender': loggedUser.email,
+                      });
+                    },
+                  ),
+                ),
               ],
             ),
           ],

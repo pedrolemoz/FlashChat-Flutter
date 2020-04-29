@@ -48,12 +48,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 isPassword: false,
+                hintText: 'E-mail',
               ),
               SizedBox(height: 10.0),
               AuthTextField(
                 controller: _passwordController,
                 keyboardType: TextInputType.visiblePassword,
                 isPassword: true,
+                hintText: 'Password',
               ),
               SizedBox(height: 10.0),
               Hero(

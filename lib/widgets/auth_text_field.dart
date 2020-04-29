@@ -5,11 +5,13 @@ class AuthTextField extends StatelessWidget {
   const AuthTextField(
       {@required this.controller,
       @required this.keyboardType,
-      @required this.isPassword});
+      @required this.isPassword,
+      @required this.hintText});
 
   final TextEditingController controller;
   final TextInputType keyboardType;
   final bool isPassword;
+  final String hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +21,10 @@ class AuthTextField extends StatelessWidget {
       enableInteractiveSelection: true,
       textAlign: TextAlign.center,
       showCursor: false,
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: keyboardType,
       style: kLabelTextStyle,
       obscureText: isPassword,
-      decoration: kInputDecoration.copyWith(hintText: 'Email'),
+      decoration: kInputDecoration.copyWith(hintText: hintText),
     );
   }
 }

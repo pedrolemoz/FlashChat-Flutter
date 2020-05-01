@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const kWelcomeScreenTextStyle = TextStyle(
   fontFamily: 'OpenSans',
-  fontSize: 50.0,
+  fontSize: 40.0,
   fontWeight: FontWeight.w700,
 );
 

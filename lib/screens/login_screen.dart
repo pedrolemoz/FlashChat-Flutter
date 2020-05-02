@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flash_chat/widgets/auth_text_field.dart';
+import 'package:flash_chat/widgets/error_alert_dialog.dart';
 import 'package:flash_chat/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -70,11 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
                     try {
                       final user = await _auth.signInWithEmailAndPassword(
-                          email: _emailController.text,
-                          password: _passwordController.text);
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      );
+
                       if (user != null) {
                         Navigator.pushNamed(context, ChatScreen.id);
                       }
+
                       setState(() {
                         showSpinner = false;
                       });
@@ -82,7 +87,40 @@ class _LoginScreenState extends State<LoginScreen> {
                       setState(() {
                         showSpinner = false;
                       });
-                      print(exception);
+
+                      String description;
+
+                      switch (exception.code) {
+                        case 'ERROR_INVALID_EMAIL':
+                          description = 'Please check your email';
+                          break;
+                        case 'ERROR_WRONG_PASSWORD':
+                          description = 'Please check your password';
+                          break;
+                        case 'ERROR_USER_NOT_FOUND':
+                          description = 'You user was not found';
+                          break;
+                        case 'ERROR_USER_DISABLED':
+                          description = 'This user was disabled in the server';
+                          break;
+                        case 'ERROR_TOO_MANY_REQUESTS':
+                          description =
+                              'You are retrying so much. Take a break';
+                          break;
+                        case 'ERROR_OPERATION_NOT_ALLOWED':
+                          description =
+                              'You are not allowed to do this operation';
+                          break;
+                        default:
+                          description = 'We don\'t know what is going on';
+                      }
+
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ErrorAlertDialog(description: description);
+                        },
+                      );
                     }
                   },
                 ),

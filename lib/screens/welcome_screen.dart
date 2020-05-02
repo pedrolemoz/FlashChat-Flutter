@@ -21,7 +21,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     super.initState();
 
     controller = AnimationController(
-      duration: Duration(milliseconds: 400),
+      duration: Duration(milliseconds: 1000),
       vsync: this,
     );
 
@@ -45,25 +45,25 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Flexible(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Hero(
-                    tag: 'logo',
-                    child: Container(
-                      child: Image.asset('images/logo.png'),
-                      height: animation.value * 80,
-                    ),
+            Row(
+              children: <Widget>[
+                Hero(
+                  tag: 'logo',
+                  child: Container(
+                    child: Image.asset('assets/launcher/foreground.png'),
+                    height: animation.value * 140,
                   ),
-                  TypewriterAnimatedTextKit(
-                    text: ['Flash Chat'],
-                    textStyle: kWelcomeScreenTextStyle,
-                    speed: Duration(milliseconds: 500),
-                    totalRepeatCount: 1,
-                  ),
-                ],
-              ),
+                ),
+                TextLiquidFill(
+                  text: 'Flash Chat',
+                  textStyle: kWelcomeScreenTextStyle,
+                  loadDuration: Duration(milliseconds: 1000),
+                  waveColor: Colors.black,
+                  boxBackgroundColor: Colors.white,
+                  boxHeight: 100,
+                  boxWidth: 210,
+                ),
+              ],
             ),
             SizedBox(height: 20.0),
             Hero(

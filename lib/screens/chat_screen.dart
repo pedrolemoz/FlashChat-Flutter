@@ -82,43 +82,53 @@ class _ChatScreenState extends State<ChatScreen> {
                 }
                 return Expanded(
                   child: ListView(
+                    physics: BouncingScrollPhysics(),
                     reverse: true,
                     children: messagesWidgets,
                   ),
                 );
               },
             ),
-            SizedBox(height: 5.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                  flex: 5,
+                Flexible(
+                  flex: 7,
                   child: RoundedInputText(
                     controller: _messageController,
                   ),
                 ),
                 SizedBox(width: 5.0),
-                Expanded(
+                Flexible(
                   flex: 1,
                   child: CircularButton(
                     onPressed: () async {
-                      // Datetime delay fixed with NTP
-                      DateTime dateTime = DateTime.now().toLocal();
-                      int offset = await NTP.getNtpOffset(localTime: dateTime);
-                      dateTime.add(Duration(milliseconds: offset));
+                      if (_messageController.text != '') {
+                        try {
+                          // Datetime delay fixed with NTP
 
-                      _firestore.collection('messages').add({
-                        'text': _messageController.text,
-                        'sender': loggedUser.email,
-                        'datetime': dateTime.toUtc(),
-                        'currentTime': [
-                          dateTime.hour,
-                          dateTime.minute,
-                          dateTime.second
-                        ],
-                      });
-                      _messageController.clear();
+                          // We are feching the current time from pool.ntp.org and
+                          // we store it in dateTime variable, then we convert
+                          // the time to UTC and send that info to Firebase.
+
+                          final DateTime dateTime = await NTP.now();
+
+                          await _firestore.collection('messages').add(
+                            {
+                              'text': _messageController.text,
+                              'sender': loggedUser.email,
+                              'datetime': dateTime.toUtc(),
+                              'currentTime': [
+                                dateTime.hour,
+                                dateTime.minute,
+                              ],
+                            },
+                          );
+
+                          _messageController.clear();
+                        } catch (exception) {
+                          print(exception);
+                        }
+                      }
                     },
                   ),
                 ),
